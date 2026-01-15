@@ -23,6 +23,11 @@ class Save
         //TODO: mount city from json file
     }
 
+    public static function exists(): bool
+    {
+        return Storage::exists(self::FILENAME);
+    }
+
     private static function mountSavePayloadFromCity(City $city): string
     {
         $payload = [

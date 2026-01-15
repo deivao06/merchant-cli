@@ -3,10 +3,10 @@
 namespace App\Commands;
 
 use App\Engine\GameEngine;
+use App\Game\City;
 use App\Storage\Save;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
-use Illuminate\Support\Facades\Storage;
 use LaravelZero\Framework\Commands\Command;
 
 class GameInitCommand extends Command implements PromptsForMissingInput
@@ -31,18 +31,18 @@ class GameInitCommand extends Command implements PromptsForMissingInput
      */
     public function handle()
     {
-        if (Storage::exists(Save::FILENAME)) {
+        if (Save::exists()) {
             $this->fail('You already have a city.');
         }
 
         $cityName = $this->argument('cityName');
+        $city = GameEngine::bootstrap($cityName);
 
-        $this->task('Creating your city', function () use ($cityName) {
-            $city = GameEngine::bootstrap($cityName);
-            Save::write($city);
-        });
+        Save::write($city);
 
         //TODO: start beacon for city discovery through LAN
+
+        $this->welcomeMessage($city);
     }
 
     /**
@@ -63,5 +63,23 @@ class GameInitCommand extends Command implements PromptsForMissingInput
         return [
             'cityName' => 'What is the city name?',
         ];
+    }
+
+    private function welcomeMessage(City $city): void
+    {
+        $this->newLine();
+
+        $this->line('Welcome, Merchant.');
+
+        $this->newLine();
+
+        $this->line('Your city has been founded.');
+
+        $this->newLine();
+
+        $this->line("Name: {$city->name}");
+        $this->line("Biome: {$city->biome->name()}");
+
+        $this->newLine();
     }
 }
