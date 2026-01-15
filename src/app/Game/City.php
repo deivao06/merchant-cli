@@ -7,17 +7,19 @@ use JsonSerializable;
 
 class City implements JsonSerializable
 {
-    public string $name;
     public Biome $biome;
     public Collection $buildings;
     public Collection $resources;
 
-    public function __construct(string $name)
-    {
-        $this->name = $name;
-        $this->biome = Biome::random();
-        $this->buildings = Building::defaultBuildings();
-        $this->resources = Resource::initialResourcePack();
+    public function __construct(
+        public string $name,
+        ?Biome $biome = null,
+        ?Collection $buildings = null,
+        ?Collection $resources = null
+    ) {
+        $this->biome = $biome ?? Biome::random();
+        $this->buildings = $buildings ?? Building::defaultBuildings();
+        $this->resources = $resources ?? Resource::initialResourcePack();
     }
 
     public function jsonSerialize(): mixed

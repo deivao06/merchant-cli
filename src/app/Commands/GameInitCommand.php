@@ -3,8 +3,10 @@
 namespace App\Commands;
 
 use App\Engine\GameEngine;
+use App\Storage\Save;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
+use Illuminate\Support\Facades\Storage;
 use LaravelZero\Framework\Commands\Command;
 
 class GameInitCommand extends Command implements PromptsForMissingInput
@@ -29,16 +31,18 @@ class GameInitCommand extends Command implements PromptsForMissingInput
      */
     public function handle()
     {
-        //TODO: abort if save file already exists
+        if (Storage::exists(Save::FILENAME)) {
+            $this->fail('You already have a city.');
+        }
 
         $cityName = $this->argument('cityName');
-        $city = GameEngine::bootstrap($cityName);
 
-        //TODO: make save file after city
+        $this->task('Creating your city', function () use ($cityName) {
+            $city = GameEngine::bootstrap($cityName);
+            Save::write($city);
+        });
 
         //TODO: start beacon for city discovery through LAN
-
-        $this->line(json_encode($city));
     }
 
     /**
