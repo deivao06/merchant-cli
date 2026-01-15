@@ -3,7 +3,7 @@ services:
     container_name: merchant-cli
     image: merchant-cli
     build: .
-    working_dir: /var/www/html
+    working_dir: /var/www/html/src
     volumes:
       - ../:/var/www/html
     tty: true

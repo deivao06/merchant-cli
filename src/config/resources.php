@@ -2,7 +2,7 @@
 
 return [
     'gold' => [
-        'name' => 'gold',
+        'name' => 'Gold',
         'description' => 'Universal currency for trade.',
         'tradeable' => false
     ],
