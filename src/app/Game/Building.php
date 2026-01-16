@@ -10,7 +10,7 @@ class Building
     public int $level;
     private Collection $data;
 
-    public function __construct(string $buildingKey, ?int $level)
+    public function __construct(string $buildingKey, ?int $level = null)
     {
         if (!self::buildings()->has($buildingKey)) {
             throw new \InvalidArgumentException("Unknown building: $buildingKey");

@@ -62,3 +62,8 @@ it('may create a random biome class', function () {
     expect($class)->toBeInstanceOf(Biome::class);
     expect($class->name())->toBeString();
 });
+
+it('throws exception for unknown biome', function () {
+    new Biome('sky');
+})->throws(\InvalidArgumentException::class, "Unknown biome: sky");
+
