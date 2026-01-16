@@ -30,6 +30,11 @@ class Resource
             ->mapWithKeys(fn ($resource, $key) => [$key => ($resource['tradeable'] ? 100 : 0)]);
     }
 
+    public function name(): string
+    {
+        return $this->data->get('name');
+    }
+
     public function tradeable(): bool
     {
         return $this->data->get('tradeable');
