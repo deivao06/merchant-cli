@@ -1,7 +1,6 @@
 <?php
 
 use App\Game\Resource;
-use Illuminate\Support\Collection;
 
 dataset('resources', ['gold', 'wood', 'stone', 'food']);
 
