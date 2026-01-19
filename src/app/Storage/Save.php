@@ -28,7 +28,7 @@ class Save
         return Storage::exists(self::FILENAME);
     }
 
-    private static function mountSavePayloadFromCity(City $city): string
+    public static function mountSavePayloadFromCity(City $city): string
     {
         $payload = [
             'city' => $city->jsonSerialize(),

@@ -13,11 +13,11 @@ class GameEngine
 
     public static function tick()
     {
-
+        //
     }
 
     private static function simulate()
     {
-
+        //
     }
 }
