@@ -39,6 +39,8 @@ class City implements JsonSerializable
         return new self(
             name: $city['name'],
             biome: new Biome($city['biome']),
+            buildings: collect($city['buildings']),
+            resources: collect($city['resources']),
         );
     }
 }

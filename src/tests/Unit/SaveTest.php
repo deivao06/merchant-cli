@@ -103,5 +103,5 @@ it('may get save file last tick', function() {
 
     expect($last_tick)
         ->toBeInt()
-        ->toBe(\Carbon\Carbon::now()->timestamp);
+        ->toBe(\Carbon\Carbon::now('UTC')->timestamp);
 });

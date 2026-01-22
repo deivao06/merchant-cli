@@ -7,9 +7,8 @@ use App\Game\City;
 use App\Storage\Save;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Console\PromptsForMissingInput;
-use LaravelZero\Framework\Commands\Command;
 
-class GameInitCommand extends Command implements PromptsForMissingInput
+class GameInitCommand extends GameBaseCommand implements PromptsForMissingInput
 {
     /**
      * The name and signature of the console command.
@@ -36,6 +35,7 @@ class GameInitCommand extends Command implements PromptsForMissingInput
         }
 
         $cityName = $this->argument('cityName');
+
         $city = GameEngine::bootstrap($cityName);
 
         //TODO: start beacon for city discovery through LAN
