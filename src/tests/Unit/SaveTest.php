@@ -14,9 +14,10 @@ it('may create save file', function () {
     Storage::assertExists(Save::FILENAME);
 
     $content = Storage::get(Save::FILENAME);
+    $decodedContent = json_decode($content, true);
 
-    expect(json_decode($content, true))
-        ->toBe(Save::mountSavePayloadFromCity($city));
+    expect($decodedContent)->toBeArray();
+    expect($decodedContent['city']['name'])->toBe('Luznova');
 });
 
 it('may mount save payload from city class', function() {

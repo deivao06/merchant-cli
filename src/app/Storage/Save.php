@@ -14,7 +14,7 @@ class Save
     {
         Storage::put(
             self::FILENAME,
-            json_encode(self::mountSavePayloadFromCity($city))
+            self::mountSavePayloadFromCity($city)
         );
     }
 
