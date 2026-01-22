@@ -8,6 +8,7 @@ it('may create save file', function () {
     $city = new City('Luznova');
 
     Storage::fake();
+    Storage::assertMissing(Save::FILENAME);
 
     Save::write($city);
 
@@ -50,6 +51,7 @@ it('may verify if save file already exists', function() {
     $city = new City('Luznova');
 
     Storage::fake();
+    Storage::assertMissing(Save::FILENAME);
 
     Save::write($city);
 
