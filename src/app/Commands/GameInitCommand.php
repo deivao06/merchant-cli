@@ -38,8 +38,6 @@ class GameInitCommand extends Command implements PromptsForMissingInput
         $cityName = $this->argument('cityName');
         $city = GameEngine::bootstrap($cityName);
 
-        Save::write($city);
-
         //TODO: start beacon for city discovery through LAN
 
         $this->welcomeMessage($city);
