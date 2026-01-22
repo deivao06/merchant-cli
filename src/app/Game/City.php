@@ -26,9 +26,19 @@ class City implements JsonSerializable
     {
         return [
             'name' => $this->name,
-            'biome' => $this->biome->name(),
+            'biome' => $this->biome->key,
             'buildings' => $this->buildings,
             'resources' => $this->resources
         ];
+    }
+
+    public static function fromSaveFile(array $saveFileContent): self
+    {
+        $city = $saveFileContent['city'];
+
+        return new self(
+            name: $city['name'],
+            biome: new Biome($city['biome']),
+        );
     }
 }

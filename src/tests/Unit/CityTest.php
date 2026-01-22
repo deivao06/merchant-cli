@@ -23,7 +23,7 @@ test('city class json serialize', function() {
     expect(json_encode($city))
         ->json()
         ->name->toBe('Pindoramalandy')
-        ->biome->toBe($city->biome->name())
+        ->biome->toBe($city->biome->key)
         ->buildings->toBe($city->buildings->toArray())
         ->resources->toBe($city->resources->toArray());
 });

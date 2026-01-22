@@ -5,20 +5,30 @@ use App\Storage\Save;
 use Illuminate\Support\Facades\Storage;
 
 it('may create save file', function () {
-    $city = new City('Luznova');
-
     Storage::fake();
     Storage::assertMissing(Save::FILENAME);
+
+    $city = new City('Luznova');
+
+    Save::write($city);
+
+    Storage::assertExists(Save::FILENAME);
+});
+
+it('may load save file', function() {
+    Storage::fake();
+    Storage::assertMissing(Save::FILENAME);
+
+    $city = new City('Luznova');
 
     Save::write($city);
 
     Storage::assertExists(Save::FILENAME);
 
-    $content = Storage::get(Save::FILENAME);
-    $decodedContent = json_decode($content, true);
+    $content = Save::load();
 
-    expect($decodedContent)->toBeArray();
-    expect($decodedContent['city']['name'])->toBe('Luznova');
+    expect($content)->toBeInstanceOf(City::class);
+    expect($content->name)->toBe('Luznova');
 });
 
 it('may mount save payload from city class', function() {
@@ -26,7 +36,7 @@ it('may mount save payload from city class', function() {
     $expectedPayload = [
         'city' => [
             'name' => $city->name,
-            'biome' => $city->biome->name(),
+            'biome' => $city->biome->key,
             'buildings' => [
                 'farm' => 1,
                 'sawmill' => 1,
@@ -48,14 +58,50 @@ it('may mount save payload from city class', function() {
 
 
 it('may verify if save file already exists', function() {
-    $city = new City('Luznova');
-
     Storage::fake();
     Storage::assertMissing(Save::FILENAME);
+
+    $city = new City('Luznova');
+
+    expect(Save::exists())->toBeFalse();
 
     Save::write($city);
 
     Storage::assertExists(Save::FILENAME);
 
     expect(Save::exists())->toBeTrue();
+});
+
+it('may get save file content', function () {
+    Storage::fake();
+    Storage::assertMissing(Save::FILENAME);
+
+    $city = new City('Luznova');
+
+    Save::write($city);
+
+    Storage::assertExists(Save::FILENAME);
+
+    $content = Save::getSaveFileContent();
+
+    expect($content)
+        ->toBeArray()
+        ->toHaveKeys(['city', 'last_tick']);
+});
+
+it('may get save file last tick', function() {
+    Storage::fake();
+    Storage::assertMissing(Save::FILENAME);
+
+    $city = new City('Luznova');
+
+    Save::write($city);
+
+    Storage::assertExists(Save::FILENAME);
+
+    $last_tick = Save::last_tick();
+
+    expect($last_tick)
+        ->toBeInt()
+        ->toBe(\Carbon\Carbon::now()->timestamp);
 });

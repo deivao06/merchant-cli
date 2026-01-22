@@ -18,14 +18,21 @@ class Save
         );
     }
 
-    public static function load(): void
+    public static function load(): City
     {
-        //TODO: mount city from json file
+        $content = self::getSaveFileContent();
+        return City::fromSaveFile($content);
     }
 
     public static function exists(): bool
     {
         return Storage::exists(self::FILENAME);
+    }
+
+    public static function getSaveFileContent(): array
+    {
+        $saveFileContent = Storage::get(self::FILENAME);
+        return json_decode($saveFileContent, true);
     }
 
     public static function mountSavePayloadFromCity(City $city): string
@@ -36,5 +43,10 @@ class Save
         ];
 
         return json_encode($payload);
+    }
+
+    public static function last_tick(): int
+    {
+        return self::getSaveFileContent()['last_tick'];
     }
 }
