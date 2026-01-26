@@ -2,6 +2,8 @@
 
 namespace App\Commands;
 
+use App\Game\City;
+use App\Storage\Save;
 use Illuminate\Console\Scheduling\Schedule;
 
 class GameStatusCommand extends GameBaseCommand
@@ -25,7 +27,11 @@ class GameStatusCommand extends GameBaseCommand
      */
     public function handle()
     {
-        //@TODO: show city status and resources
+        if (!Save::exists()) {
+            $this->fail("You don't have a city yet! try creating a city using game:init command");
+        }
+
+        $this->statusMessage(Save::load());
     }
 
     /**
@@ -34,5 +40,21 @@ class GameStatusCommand extends GameBaseCommand
     public function schedule(Schedule $schedule): void
     {
         // $schedule->command(static::class)->everyMinute();
+    }
+
+    private function statusMessage(City $city): void
+    {
+        $this->newLine();
+        $this->info("{$city->name}");
+        $this->info("Biome: {$city->biome->name()}");
+        $this->warn('Buildings:');
+        $city->buildings->each(fn ($qty, $building) =>
+            $this->line("   $building: $qty")
+        );
+        $this->warn('Resources:');
+        $city->resources->each(fn ($qty, $resource) =>
+            $this->line("   $resource: $qty")
+        );
+        $this->newLine();
     }
 }
