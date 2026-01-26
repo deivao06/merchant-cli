@@ -26,13 +26,6 @@ class GameStatusCommand extends GameBaseCommand
     public function handle()
     {
         //@TODO: show city status and resources
-        $this->table(
-            ['Name', 'Email'],
-            [
-                ['name' => 'Ddvd', 'email' => 'dvd@emaik.coim'],
-                ['name' => 'Ddvd', 'email' => 'dvd@emaik.coim']
-            ]
-        );
     }
 
     /**
