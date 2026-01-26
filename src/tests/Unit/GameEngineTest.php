@@ -3,10 +3,7 @@
 use App\Engine\GameEngine;
 use App\Game\City;
 use App\Storage\Save;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
-
-use function Illuminate\Support\now;
 
 it('may bootstrap the game an return a city class', function () {
     Storage::fake();
@@ -19,6 +16,8 @@ it('may bootstrap the game an return a city class', function () {
 });
 
 it('may simulate resource generation through time', function() {
+    $passedMinutes = 10;
+
     Storage::fake();
     Storage::assertMissing(Save::FILENAME);
 
@@ -26,9 +25,16 @@ it('may simulate resource generation through time', function() {
 
     expect(Save::exists())->toBeTrue();
 
-    $this->travel(10)->minutes();
+    $this->travel($passedMinutes)->minutes();
 
     GameEngine::tick();
 
-    $updatedFile = Save::load();
+    $updatedCity = Save::load();
+    $generatedFood = 100 + (config('buildings.farm.base_per_minute') * $passedMinutes) * $updatedCity->biome->multiplierFor('food');
+    $generatedWood = 100 + (config('buildings.sawmill.base_per_minute') * $passedMinutes) * $updatedCity->biome->multiplierFor('wood');
+    $generatedStone = 100 + (config('buildings.quarry.base_per_minute') * $passedMinutes) * $updatedCity->biome->multiplierFor('stone');
+
+    expect((int) $generatedFood)->toBe($updatedCity->food());
+    expect((int) $generatedWood)->toBe($updatedCity->wood());
+    expect((int) $generatedStone)->toBe($updatedCity->stone());
 });

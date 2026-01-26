@@ -22,16 +22,6 @@ class City implements JsonSerializable
         $this->resources = $resources ?? Resource::initialResourcePack();
     }
 
-    public function jsonSerialize(): mixed
-    {
-        return [
-            'name' => $this->name,
-            'biome' => $this->biome->key,
-            'buildings' => $this->buildings,
-            'resources' => $this->resources
-        ];
-    }
-
     public static function fromSaveFile(array $saveFileContent): self
     {
         $city = $saveFileContent['city'];
@@ -42,5 +32,35 @@ class City implements JsonSerializable
             buildings: collect($city['buildings']),
             resources: collect($city['resources']),
         );
+    }
+
+    public function jsonSerialize(): mixed
+    {
+        return [
+            'name' => $this->name,
+            'biome' => $this->biome->key,
+            'buildings' => $this->buildings,
+            'resources' => $this->resources
+        ];
+    }
+
+    public function gold(): int
+    {
+        return $this->resources->get('gold');
+    }
+
+    public function food(): int
+    {
+        return $this->resources->get('food');
+    }
+
+    public function wood(): int
+    {
+        return $this->resources->get('wood');
+    }
+
+    public function stone(): int
+    {
+        return $this->resources->get('stone');
     }
 }

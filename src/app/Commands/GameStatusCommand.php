@@ -2,7 +2,6 @@
 
 namespace App\Commands;
 
-use App\Storage\Save;
 use Illuminate\Console\Scheduling\Schedule;
 
 class GameStatusCommand extends GameBaseCommand
