@@ -15,6 +15,6 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
 ENV PATH="/root/.composer/vendor/bin:${PATH}"
 
-WORKDIR /var/www/html/src
+WORKDIR /var/www/html
 
 USER appuser
