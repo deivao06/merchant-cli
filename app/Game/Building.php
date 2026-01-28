@@ -29,7 +29,9 @@ class Building
     public static function defaultBuildings(): Collection
     {
         return self::buildings()
-            ->mapWithKeys(fn ($building, $key) => [$key => 1]);
+            ->mapWithKeys(fn ($building, $key) =>
+                [$key => new self(buildingKey: $key, level: 1)]
+            );
     }
 
     public function name(): string

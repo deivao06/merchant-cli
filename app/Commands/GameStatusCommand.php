@@ -49,11 +49,11 @@ class GameStatusCommand extends GameBaseCommand
         $this->info("Biome: {$city->biome->name()}");
         $this->warn('Buildings:');
         $city->buildings->each(fn ($qty, $building) =>
-            $this->line("   $building: $qty")
+            $this->line("building: $qty")
         );
         $this->warn('Resources:');
         $city->resources->each(fn ($qty, $resource) =>
-            $this->line("   $resource: $qty")
+            $this->line("resource: $qty")
         );
         $this->newLine();
     }

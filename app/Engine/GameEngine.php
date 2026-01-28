@@ -2,7 +2,6 @@
 
 namespace App\Engine;
 
-use App\Game\Building;
 use App\Game\City;
 use App\Storage\Save;
 use Illuminate\Support\Carbon;
@@ -33,9 +32,7 @@ class GameEngine
 
         $biome = $city->biome;
 
-        $city->buildings->each(function ($level, $buildingKey) use ($biome, $city, $delta) {
-            $building = new Building($buildingKey, $level);
-
+        $city->buildings->each(function ($building) use ($biome, $city, $delta) {
             $city->resources = $city->resources->map(function($qty, $resourceKey) use ($biome, $building, $delta) {
                 if ($resourceKey === $building->produces()) {
                     $resourceGenerated = ($building->baseResourcePerMinute() * $delta) * $biome->multiplierFor($resourceKey);
