@@ -34,7 +34,7 @@ it('may simulate resource generation through time', function() {
     $generatedWood = 100 + (config('buildings.sawmill.base_per_minute') * $passedMinutes) * $updatedCity->biome->multiplierFor('wood');
     $generatedStone = 100 + (config('buildings.quarry.base_per_minute') * $passedMinutes) * $updatedCity->biome->multiplierFor('stone');
 
-    expect((int) $generatedFood)->toBe($updatedCity->food());
-    expect((int) $generatedWood)->toBe($updatedCity->wood());
-    expect((int) $generatedStone)->toBe($updatedCity->stone());
+    expect((int) $generatedFood)->toBe($updatedCity->food()->qty);
+    expect((int) $generatedWood)->toBe($updatedCity->wood()->qty);
+    expect((int) $generatedStone)->toBe($updatedCity->stone()->qty);
 });

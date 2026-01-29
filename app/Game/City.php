@@ -53,17 +53,17 @@ class City implements JsonSerializable
         return $this->resources->get('gold');
     }
 
-    public function food(): int
+    public function food(): Resource
     {
         return $this->resources->get('food');
     }
 
-    public function wood(): int
+    public function wood(): Resource
     {
         return $this->resources->get('wood');
     }
 
-    public function stone(): int
+    public function stone(): Resource
     {
         return $this->resources->get('stone');
     }
