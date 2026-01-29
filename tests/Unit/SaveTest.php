@@ -38,15 +38,36 @@ it('may mount save payload from city class', function() {
             'name' => $city->name,
             'biome' => $city->biome->key,
             'buildings' => [
-                'farm' => 1,
-                'sawmill' => 1,
-                'quarry' => 1,
+                'farm' => [
+                    'key' => 'farm',
+                    'level' => 1,
+                ],
+                'sawmill' => [
+                    'key' => 'sawmill',
+                    'level' => 1,
+                ],
+                'quarry' => [
+                    'key' => 'quarry',
+                    'level' => 1,
+                ],
             ],
             'resources' => [
-                'gold' => 0,
-                'food' => 100,
-                'wood' => 100,
-                'stone' => 100,
+                'gold' => [
+                    'key' => 'gold',
+                    'qty' => 0,
+                ],
+                'food' => [
+                    'key' => 'food',
+                    'qty' => 100,
+                ],
+                'wood' => [
+                    'key' => 'wood',
+                    'qty' => 100,
+                ],
+                'stone' => [
+                    'key' => 'stone',
+                    'qty' => 100,
+                ],
             ],
         ],
         'last_tick' => Carbon\Carbon::now('UTC')->timestamp

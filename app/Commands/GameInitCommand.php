@@ -66,19 +66,15 @@ class GameInitCommand extends GameBaseCommand implements PromptsForMissingInput
     private function welcomeMessage(City $city): void
     {
         $this->newLine();
-        $this->info('Welcome, Merchant.');
-        $this->info('Your city has been founded.');
+        $this->line('Welcome, Merchant.');
+        $this->line('Your city has been founded.');
         $this->newLine();
         $this->info("Name: {$city->name}");
         $this->info("Biome: {$city->biome->name()}");
         $this->warn('Starting buildings:');
-        $city->buildings->each(fn ($qty, $building) =>
-            $this->line("   $building: $qty")
-        );
+        $city->buildings->each(fn ($building) => $this->buildingInfoMessage($building));
         $this->warn('Starting resources:');
-        $city->resources->each(fn ($qty, $resource) =>
-            $this->line("   $resource: $qty")
-        );
+        $city->resources->each(fn ($resource) => $this->resourceInfoMessage($resource));
         $this->newLine();
     }
 }

@@ -29,8 +29,8 @@ class City implements JsonSerializable
         return new self(
             name: $city['name'],
             biome: new Biome($city['biome']),
-            buildings: collect($city['buildings']),
-            resources: collect($city['resources']),
+            buildings: collect($city['buildings'])->map(fn ($buildingData) => new Building($buildingData['key'], $buildingData['level'])),
+            resources: collect($city['resources'])->map(fn ($resourceData) => new Resource($resourceData['key'], $resourceData['qty'])),
         );
     }
 
@@ -39,8 +39,12 @@ class City implements JsonSerializable
         return [
             'name' => $this->name,
             'biome' => $this->biome->key,
-            'buildings' => $this->buildings,
-            'resources' => $this->resources
+            'buildings' => $this->buildings->map(fn ($building) =>
+                ['key' => $building->key, 'level' => $building->level]
+            ),
+            'resources' => $this->resources->map(fn ($resource) =>
+                ['key' => $resource->key, 'qty' => $resource->qty]
+            )
         ];
     }
 
@@ -49,17 +53,17 @@ class City implements JsonSerializable
         return $this->resources->get('gold');
     }
 
-    public function food(): int
+    public function food(): Resource
     {
         return $this->resources->get('food');
     }
 
-    public function wood(): int
+    public function wood(): Resource
     {
         return $this->resources->get('wood');
     }
 
-    public function stone(): int
+    public function stone(): Resource
     {
         return $this->resources->get('stone');
     }

@@ -18,11 +18,10 @@ it('throws exception for unknown resource', function () {
 })->throws(\InvalidArgumentException::class, 'Unknown resource: silver');
 
 it('returns initial resource pack', function () {
-    expect(Resource::initialResourcePack()->toArray())
-        ->toBe([
-            'gold' => 0,
-            'food' => 100,
-            'wood' => 100,
-            'stone' => 100
-        ]);
+    $initialResourcePack = Resource::initialResourcePack();
+
+    expect($initialResourcePack->some(fn($resource) => $resource instanceof Resource))->toBeTrue();
+    expect($initialResourcePack->some(fn($resource) => $resource->tradeable() ? $resource->qty === 100 : $resource->qty === 0))->toBeTrue();
+    expect($initialResourcePack->toJson())
+        ->toBe('{"gold":{"key":"gold","qty":0},"food":{"key":"food","qty":100},"wood":{"key":"wood","qty":100},"stone":{"key":"stone","qty":100}}');
 });
