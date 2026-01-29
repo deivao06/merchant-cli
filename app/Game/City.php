@@ -39,8 +39,12 @@ class City implements JsonSerializable
         return [
             'name' => $this->name,
             'biome' => $this->biome->key,
-            'buildings' => $this->buildings,
-            'resources' => $this->resources
+            'buildings' => $this->buildings->map(fn ($building) =>
+                ['key' => $building->key, 'level' => $building->level]
+            ),
+            'resources' => $this->resources->map(fn ($resource) =>
+                ['key' => $resource->key, 'qty' => $resource->qty]
+            )
         ];
     }
 

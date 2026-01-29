@@ -17,8 +17,11 @@ it('may create building class', function(string $buildingKey) {
 
 it('returns default buildings', function () {
     $defaultBuildings = Building::defaultBuildings();
+
     expect($defaultBuildings->some(fn($building) => $building instanceof Building))->toBeTrue();
     expect($defaultBuildings->some(fn($building) => $building->level == 1))->toBeTrue();
+    expect($defaultBuildings->toJson())
+        ->toBe('{"farm":{"key":"farm","level":1},"sawmill":{"key":"sawmill","level":1},"quarry":{"key":"quarry","level":1}}');
 });
 
 it('throws exception for unknown building', function () {
