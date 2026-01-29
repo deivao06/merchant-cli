@@ -33,17 +33,11 @@ class GameEngine
         $biome = $city->biome;
 
         $city->buildings->each(function ($building) use ($biome, $city, $delta) {
-            $city->resources = $city->resources->map(function($qty, $resourceKey) use ($biome, $building, $delta) {
-                if ($resourceKey === $building->produces()) {
-                    $resourceGenerated = ($building->baseResourcePerMinute() * $delta) * $biome->multiplierFor($resourceKey);
-
-                    $newQty = $qty + $resourceGenerated;
-
-                    return floor($newQty);
-                }
-
-                return $qty;
-            });
+            $city->resources = $city->resources->map(fn($resource) =>
+                $building->producesResource($resource)
+                    ? $resource->add($building->generateResourceByDeltaTime($delta, $biome))
+                    : $resource
+            );
         });
 
         return $city;

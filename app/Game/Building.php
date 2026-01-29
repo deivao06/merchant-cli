@@ -44,6 +44,11 @@ class Building
        return $this->data->get('produces');
     }
 
+    public function producesResource(Resource $resource): bool
+    {
+        return $resource->key == $this->produces();
+    }
+
     public function baseResourcePerMinute(): int
     {
         return $this->data->get('base_per_minute');
@@ -54,5 +59,10 @@ class Building
         $upgradeCost = $this->data->get('upgrade_cost');
 
         return $upgradeCost($this->level);
+    }
+
+    public function generateResourceByDeltaTime(int $delta, Biome $biome): int
+    {
+        return ($this->baseResourcePerMinute() * $delta) * $biome->multiplierFor($this->produces());
     }
 }

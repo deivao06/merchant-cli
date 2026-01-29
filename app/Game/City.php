@@ -30,7 +30,7 @@ class City implements JsonSerializable
             name: $city['name'],
             biome: new Biome($city['biome']),
             buildings: collect($city['buildings'])->map(fn ($buildingData) => new Building($buildingData['key'], $buildingData['level'])),
-            resources: collect($city['resources']),
+            resources: collect($city['resources'])->map(fn ($resourceData) => new Resource($resourceData['key'], $resourceData['qty'])),
         );
     }
 

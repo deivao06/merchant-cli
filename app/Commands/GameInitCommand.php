@@ -3,7 +3,6 @@
 namespace App\Commands;
 
 use App\Engine\GameEngine;
-use App\Game\Building;
 use App\Game\City;
 use App\Storage\Save;
 use Illuminate\Console\Scheduling\Schedule;
@@ -72,21 +71,10 @@ class GameInitCommand extends GameBaseCommand implements PromptsForMissingInput
         $this->newLine();
         $this->info("Name: {$city->name}");
         $this->info("Biome: {$city->biome->name()}");
-        $this->newLine();
         $this->warn('Starting buildings:');
         $city->buildings->each(fn ($building) => $this->buildingInfoMessage($building));
         $this->warn('Starting resources:');
-        $city->resources->each(fn ($qty, $resource) =>
-            $this->line("$resource: $qty")
-        );
+        $city->resources->each(fn ($resource) => $this->resourceInfoMessage($resource));
         $this->newLine();
-    }
-
-    private function buildingInfoMessage(Building $building): void
-    {
-        $buildingName = $building->name();
-        $level = $building->level;
-
-        $this->line("$buildingName(lvl): $level");
     }
 }
